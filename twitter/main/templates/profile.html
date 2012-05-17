@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>
+		<tr>
+			<td>
+				<div>aqui va el avatar
+					{% if not it_self %}
+					    {% if follow %}
+					        <a href="{% url  unfollow_user user.id %}">|Dejar de seguir|</a>
+					    {% else %}
+					        <a href="{% url  follow_user user.id %}">|Seguir|</a>
+					    {% endif %}
+					{% endif %}
+				</div>
+			</td>
+			<td>
+				<div>
+					@{{ user.user.username }}
+					<br/>
+					{{ user.name}}
+				    <br/>
+					{{ user.bio}}
+					<br/>
+					{{ user.location}}
+					<br/>
+					Followers - [{{ followers }}]
+					<br/>
+					Followings - [{{ followings }}]
+				</div>
+			</td>
+		</tr>
+	</div>
+	<div>
+	<a href="{% url log_out %}">|Log out|</a>
+	    {% if it_self %}
+            <a href="{% url  add_tweet %}">|Twittear|</a>
+            <a href="{% url edit_profile %}">|Edit profile|</a>
+        {% endif %}
+	</div>
+	{% for tweet in tweets %}
+	<div>
+		<p>
+		{{ tweet.status}}
+		</p>
+		<p>
+		<a href="{% url tweet tweet.id %}"> {{ tweet.date}} </a>
+		</p>
+	</div>
+	{% endfor %}	
+
+</body>
+</html>
