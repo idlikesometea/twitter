@@ -3,6 +3,20 @@
 	<title>Timeline</title>
 </head>
 <body>
+	{% for tweet in tweets %}
+	<div>
+	    <p>
+	    <a href="{% url profile tweet.owner.user.username %}">{{ tweet.owner.user.username }}</a>
+		</p>
+		<p>
+		{{ tweet.status }}
+		</p>
+		<p>
+		<h6><a href="{% url tweet tweet.id %}"> {{ tweet.date }} </a></h6>
+		</p>
+	</div>
+	____________________________________________________________
+	{% endfor %}	
 
 </body>
 </html>

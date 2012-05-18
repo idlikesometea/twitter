@@ -1,55 +1,58 @@
 <html>
 <head>
-	<title></title>
+	<title>Profile</title>
 </head>
 <body>
 	<div>
 		<tr>
 			<td>
-				<div>aqui va el avatar
+				<div>
 					{% if not it_self %}
 					    {% if follow %}
-					        <a href="{% url  unfollow_user user.id %}">|Dejar de seguir|</a>
+					        <a href="{% url  unfollow_user user.id %}">|Unfollow|</a>
 					    {% else %}
-					        <a href="{% url  follow_user user.id %}">|Seguir|</a>
+					        <a href="{% url  follow_user user.id %}">|Follow|</a>
 					    {% endif %}
 					{% endif %}
 				</div>
 			</td>
 			<td>
 				<div>
-					@{{ user.user.username }}
-					<br/>
-					{{ user.name}}
-				    <br/>
-					{{ user.bio}}
-					<br/>
-					{{ user.location}}
-					<br/>
-					Followers - [{{ followers }}]
-					<br/>
-					Followings - [{{ followings }}]
+					<big>@{{ user.user.username }}</big>
+					<br>
+					{{ user.name }}
+				    <br>
+				    <small>{{ user.bio }}</small>
+					<br>
+					<small>{{ user.location }}</small>
+					<br>
+					Followers - [{{ followers }}] Following - [{{ followings }}]
 				</div>
 			</td>
 		</tr>
 	</div>
 	<div>
-	<a href="{% url log_out %}">|Log out|</a>
+	    <a href="{% url feed %}">|My Timeline|</a> 
 	    {% if it_self %}
-            <a href="{% url  add_tweet %}">|Twittear|</a>
+	        <a href="{% url log_out %}">|Log out|</a>
+	        <a href="{% url  add_tweet %}">|New Twit|</a>
             <a href="{% url edit_profile %}">|Edit profile|</a>
         {% endif %}
+        
 	</div>
 	{% for tweet in tweets %}
 	<div>
 		<p>
-		{{ tweet.status}}
+		{{ tweet.status }}
 		</p>
 		<p>
-		<a href="{% url tweet tweet.id %}"> {{ tweet.date}} </a>
+		<h6><a href="{% url tweet tweet.id %}">{{ tweet.date }}</a></h6>
+		{% if it_self %}
+		<h6><a href="{% url edit_tweet tweet.id %}">Edit</a> <a href="{% url delete_tweet tweet.id %}">Delete</a></h6>
+		{% endif %}
 		</p>
 	</div>
+	_________________________________________________
 	{% endfor %}	
-
 </body>
 </html>

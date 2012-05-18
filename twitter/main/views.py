@@ -57,7 +57,7 @@ def log_in(request):
 
 def log_out(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 
 def edit_profile(request):
@@ -66,6 +66,8 @@ def edit_profile(request):
             form = EditProfileForm(request.POST, instance=UserProfile.objects.get(user=request.user))
             if form.is_valid():
                 form.save()
+                user = UserProfile.objects.get(user=request.user)
+                return redirect('profile', username=user.user.username)
             else:
                 return render_to_response('registro.html', {'form': form, }, RequestContext(request))
         form = EditProfileForm(instance=UserProfile.objects.get(user=request.user))
@@ -125,3 +127,31 @@ def add_tweet(request):
     return render_to_response('add_tweet.html', {
         'form': form,
         }, RequestContext(request))
+
+
+def feed(request):
+    if request.user.is_authenticated():
+        user = UserProfile.objects.get(user=request.user)
+        dic = {'tweets': user.feed()}
+        return render_to_response('timeline.html', dic)
+
+
+def edit_tweet(request, pk):
+    tweet = Tweet.objects.get(pk=pk)
+    form = TweetForm(instance=tweet)
+    if request.method == 'POST':
+        form = TweetForm(request.POST, instance=tweet)
+        if form.is_valid():
+            form.save()
+            user = UserProfile.objects.get(user=request.user)
+            return redirect('profile', username=user.user.username)
+    return render_to_response('add_tweet.html', {
+        'form': form,
+        }, RequestContext(request))
+
+
+def delete_tweet(request, pk):
+    tweet = Tweet.objects.get(pk=pk)
+    tweet.delete()
+    user = UserProfile.objects.get(user=request.user)
+    return redirect('profile', username=user.user.username)

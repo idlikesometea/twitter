@@ -1,11 +1,14 @@
 <html>
 <head>
-	<title>el home</title>
+	<title>Twitter</title>
 </head>
 <body>
-	<div>aqui va ir el <a href="{% url login %}">login</a></div>
+
+	<div id="bo">Welcome back <a href="{% url login %}">Login</a></div>
 	<div id="content">
-		<a href="{% url registro %}">registro</a>
+		Are you new here? <a href="{% url registro %}">Register</a>
+		<br>
+		<a href="{%  url reset %}">Did you forget your password?</a>
 	</div>
 </body>
 </html>

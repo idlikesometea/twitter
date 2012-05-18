@@ -30,7 +30,7 @@ class UserProfile(models.Model):
         self.tweet_set.create(status=status)
 
     def feed(self):
-        return Tweet.objects.filter(owner_in=self.followings())
+        return Tweet.objects.filter(owner__in=self.followings() + [self])
 
 
 class Tweet(models.Model):
